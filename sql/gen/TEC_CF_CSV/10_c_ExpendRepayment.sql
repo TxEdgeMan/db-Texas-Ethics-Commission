@@ -51,6 +51,7 @@ CREATE INDEX ON tec.c_ExpendRepayment (filerIdent, filerTypeCd);
 
 ALTER TABLE tec.c_ExpendRepayment
 	ADD FOREIGN KEY (formTypeCd) REFERENCES tec.codes_forms NOT VALID,
+	ADD FOREIGN KEY (schedFormTypeCd) REFERENCES tec.codes_schedules NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.c_CoverSheet1Data NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
 	ADD FOREIGN KEY (filerIdent, filerTypeCd) REFERENCES tec.c_FilerData NOT VALID;

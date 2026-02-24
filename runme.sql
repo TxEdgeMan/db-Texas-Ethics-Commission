@@ -36,6 +36,12 @@ COMMENT ON SCHEMA tec IS $$Texas Ethics Comission dataset$$;
 \i sql/cf_new/02_data/7_forms.sql
 \i sql/cf_new/02_data/8_counties.sql
 \i sql/cf_new/02_data/9_totals.sql
+--added 2026 02-23
+\i sql/cf_new/02_data/10_codes_filer_jdi.sql
+\i sql/cf_new/02_data/11_committee_status.sql
+\i sql/cf_new/02_data/12_filer_data_codes.sql
+\i sql/cf_new/02_data/13_coversheet_data_codes.sql
+\i sql/cf_new/02_data/14_misc_codes.sql
 
 \echo LOADING FORM 1295 [1295Certificates.csv]
 \i sql/form1295.sql
@@ -71,11 +77,11 @@ UPDATE tec.c_contributiondata
 	WHERE contributornameprefixcd IN ( 'AMB', 'AMBASSADOR', 'TITLE', 'ME' );
 
 
-UPDATE tec.tec.c_expenddata
+UPDATE tec.c_expenddata
 	SET payeenamesuffixcd = NULL
 	WHERE payeenamesuffixcd IN ( 'MR', 'MS' );
 
-UPDATE tec.tec.c_expenddata SET payeenameprefixcd = NULL WHERE payeenameprefixcd IN ( 'TITLE', 'ME', 'RADM', 'AMBASSADOR' );
+UPDATE tec.c_expenddata SET payeenameprefixcd = NULL WHERE payeenameprefixcd IN ( 'TITLE', 'ME', 'RADM', 'AMBASSADOR' );
 UPDATE tec.c_coversheet1data SET filernamesuffixcd = NULL WHERE filernamesuffixcd = 'MR';
 UPDATE tec.c_coversheet1data SET filernameprefixcd = NULL WHERE filernameprefixcd = 'TITLE';
 UPDATE tec.c_coversheet1data SET treasnamesuffixcd = NULL WHERE treasnamesuffixcd = 'MR';

@@ -1,16 +1,16 @@
 # Schema generation for the Texas Ethics Commission
 # Copyright (C) 2018  Evan Carroll
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -40,7 +40,7 @@ sub pg_ddl ($self) {
 }
 
 sub pg_type ($self) {
-	
+
 	state $types = {
 		BigDecimal => 'numeric(12,2)',
 		String     => 'text',
@@ -66,7 +66,8 @@ sub pg_type ($self) {
 		$coltype = 'date';
 	}
 	elsif ( $self->name =~ /ExpendCd$/ ) {
-		$coltype = 'bool';
+		#$coltype = 'bool';
+		$coltype = 'char(1)'; # ExpendCd is 'Y' or 'N'
 	}
 	elsif ( $self->name =~ /CountryCd$/ ) {
 		$coltype = 'char(3)';
@@ -121,7 +122,7 @@ sub fkey_constraint ($self) {
 		}
 
 	}
-	
+
 	elsif ( $self->name =~ /CountyCd\d*$/ ) {
 		return sprintf( $fmt, 'codes_counties' );
 	}
@@ -131,29 +132,100 @@ sub fkey_constraint ($self) {
 	elsif ( $self->name =~ /reportTypeCd\d*$/ ) {
 		return sprintf( $fmt, 'codes_reports' );
 	}
-	elsif ( $self->name =~ /NamePrefixCd$/ ) {
+	elsif ( $self->name =~ /NamePrefixCd\d*$/ ) {
 		return sprintf( $fmt, 'codes_name_prefixes' );
 	}
-	elsif ( $self->name =~ /NameSuffixCd$/ ) {
+	elsif ( $self->name =~ /NameSuffixCd\d*$/ ) {
 		return sprintf( $fmt, 'codes_name_suffixes' );
 	}
 	elsif (
-		$self->name =~ /filerTypeCd$/
-		# $self->table->name eq 'c_FilerData' || $self->table->name =~ /^l_/
-	) {
-		return sprintf( $fmt, 'codes_filertype' );
+	    $self->name =~ /filerTypeCd$/
+	    # $self->table->name eq 'c_FilerData' || $self->table->name =~ /^l_/
+	    )
+	{
+	    return sprintf( $fmt, 'codes_filertype' );
 	}
-	# elsif ( $self->name =~ /schedFormTypeCd$/ ) {
-	# 	return sprintf( $fmt, 'codes_schedule' );
-	# }
+	#uncommented and made plural to match the generated code table name
+	elsif ( $self->name =~ /schedFormTypeCd$/ ) {
+	    return sprintf( $fmt, 'codes_schedules' );
+	}
 	elsif ( $self->name =~ /formTypeCd$/ ) {
-		return sprintf( $fmt, 'codes_forms' );
+	    return sprintf( $fmt, 'codes_forms' );
 	}
 	elsif ( $self->name =~ /totalTypeCd$/ ) {
 		return sprintf( $fmt, 'codes_totals' );
 	}
 	elsif ( $self->name =~ /OfficeCd$/ ) {
 		return sprintf( $fmt, 'codes_offices' );
+	}
+	# Handle state codes
+	elsif ( $self->name =~ /StateCd\d*$|MailingStateCd$/ ) {
+		return sprintf( $fmt, 'codes_states' );
+	}
+	# Handle person/entity type codes
+	elsif ( $self->name =~ /PersentTypeCd\d*$|FilerpersStatusCd$/ ) {
+		return sprintf( $fmt, 'codes_persent_types' );
+	}
+	# Handle specific code tables
+	elsif ( $self->name =~ /^politicalExpendCd$/ ) {
+		return sprintf( $fmt, 'codes_political_expend' );
+	}
+	elsif ( $self->name =~ /^subjectCategoryCd$/ ) {
+		return sprintf( $fmt, 'codes_subject_category' );
+	}
+	elsif ( $self->name =~ /^subjectPositionCd$/ ) {
+		return sprintf( $fmt, 'codes_subject_position' );
+	}
+	elsif ( $self->name =~ /^subjectMatterCd$/ ) {
+		return sprintf( $fmt, 'codes_subject_matter' );
+	}
+	elsif ( $self->name =~ /^loanStatusCd$/ ) {
+		return sprintf( $fmt, 'codes_loan_status' );
+	}
+	elsif ( $self->name =~ /^committeeStatusCd$/ ) {
+		return sprintf( $fmt, 'codes_committee_status' );
+	}
+	elsif ( $self->name =~ /^spacCommitteeStatusCd$/ ) {
+		return sprintf( $fmt, 'codes_committee_status' );
+	}
+	elsif ( $self->name =~ /^spacPositionCd$/ ) {
+		return sprintf( $fmt, 'codes_position' );
+	}
+	elsif ( $self->name =~ /^lobbyActivityPeriodCd$/ ) {
+		return sprintf( $fmt, 'codes_lobby_activity_period' );
+	}
+	elsif ( $self->name =~ /^activityAmountCd$/ ) {
+		return sprintf( $fmt, 'codes_activity_amount' );
+	}
+	elsif ( $self->name =~ /^transportationTypeCd$/ ) {
+		return sprintf( $fmt, 'codes_transportation_type' );
+	}
+	elsif ( $self->name =~ /^lobbyEventKindCd$/ ) {
+		return sprintf( $fmt, 'codes_lobby_event_kind' );
+	}
+	elsif ( $self->name =~ /^notifierCommactPersentKindCd$/ ) {
+		return sprintf( $fmt, 'codes_persent_kind' );  # person entity kind code 
+	}
+	elsif ( $self->name =~ /^filerJdiCd$/ ) {
+		return sprintf( $fmt, 'codes_filer_jdi' );
+	}
+	elsif ( $self->name =~ /^sourceCategoryCd$/ ) {
+		return sprintf( $fmt, 'codes_source_category' );
+	}
+	elsif ( $self->name =~ /^electionTypeCd$/ ) {
+		return sprintf( $fmt, 'codes_election_type' );
+	}
+	elsif ( $self->name =~ /^politicalPartyCd$/ ) {
+		return sprintf( $fmt, 'codes_political_party' );
+	}
+	elsif ( $self->name =~ /^politicalDivisionCd$/ ) {
+		return sprintf( $fmt, 'codes_political_division' );
+	}
+	elsif ( $self->name =~ /^highContribThreshholdCd$/ ) {
+		return sprintf( $fmt, 'codes_contrib_threshold' );
+	}
+	elsif ( $self->name =~ /^spacFilerTypeCd$|^candidateFilerTypeCd$/ ) {
+		return sprintf( $fmt, 'codes_filertype' );
 	}
 	elsif ( $self->name =~ /Cd$/ ) {
 		warn sprintf("Unhandled foreign key detected for table %s: %s", $self->table->name, $self->name );

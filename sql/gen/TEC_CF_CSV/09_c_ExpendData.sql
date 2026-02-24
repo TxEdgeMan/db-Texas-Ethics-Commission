@@ -35,7 +35,7 @@ CREATE TABLE tec.c_ExpendData (
 	expendCatDescr                          text,
 	itemizeFlag                             bool,
 	travelFlag                              bool,
-	politicalExpendCd                       bool,
+	politicalExpendCd                       char(1),
 	reimburseIntendedFlag                   bool,
 	srcCorpContribFlag                      bool,
 	capitalLivingexpFlag                    char(1),
@@ -121,6 +121,8 @@ COMMENT ON COLUMN tec.c_expenddata.repaymentdt IS $$Repayment date$$;
 
 \COPY tec.c_ExpendData FROM 'data/TEC_CF_CSV/expend_12.csv' WITH ( FORMAT CSV , HEADER true );
 
+\COPY tec.c_ExpendData FROM 'data/TEC_CF_CSV/expend_13.csv' WITH ( FORMAT CSV , HEADER true );
+
 \COPY tec.c_ExpendData FROM 'data/TEC_CF_CSV/expn_t.csv' WITH ( FORMAT CSV , HEADER true );
 
 
@@ -128,11 +130,15 @@ CREATE INDEX ON tec.c_ExpendData (filerIdent, filerTypeCd);
 
 ALTER TABLE tec.c_ExpendData
 	ADD FOREIGN KEY (formTypeCd) REFERENCES tec.codes_forms NOT VALID,
+	ADD FOREIGN KEY (schedFormTypeCd) REFERENCES tec.codes_schedules NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.c_CoverSheet1Data NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
 	ADD FOREIGN KEY (expendCatCd) REFERENCES tec.c_expendcategory NOT VALID,
+	ADD FOREIGN KEY (politicalExpendCd) REFERENCES tec.codes_political_expend NOT VALID,
+	ADD FOREIGN KEY (payeePersentTypeCd) REFERENCES tec.codes_persent_types NOT VALID,
 	ADD FOREIGN KEY (payeeNameSuffixCd) REFERENCES tec.codes_name_suffixes NOT VALID,
 	ADD FOREIGN KEY (payeeNamePrefixCd) REFERENCES tec.codes_name_prefixes NOT VALID,
+	ADD FOREIGN KEY (payeeStreetStateCd) REFERENCES tec.codes_states NOT VALID,
 	ADD FOREIGN KEY (payeeStreetCountyCd) REFERENCES tec.codes_counties NOT VALID,
 	ADD FOREIGN KEY (payeeStreetCountryCd) REFERENCES tec.codes_countries NOT VALID,
 	ADD FOREIGN KEY (filerIdent, filerTypeCd) REFERENCES tec.c_FilerData NOT VALID;

@@ -44,6 +44,7 @@ CREATE TABLE tec.c_CoverSheet3Data (
 	activitySeekOfficeDescr                 text,
 	activitySeekOfficeCountyCd              text,
 	activitySeekOfficeCountyDescr           text,
+        commActivityName       text,
 	PRIMARY KEY (committeeActivityId)
 );
 COMMENT ON TABLE tec.c_CoverSheet3Data IS $$Cover Sheet 3 - Committee purpose. The committee purpose is reported at the top of Cover Sheet Page 2 FORMNAME = CEC, GPAC, JSPAC, MCEC, MPAC, SCSPAC, SPAC, SPACSS. File: purpose.csv$$;
@@ -82,6 +83,8 @@ ALTER TABLE tec.c_CoverSheet3Data
 	ADD FOREIGN KEY (formTypeCd) REFERENCES tec.codes_forms NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.c_CoverSheet1Data NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
+	ADD FOREIGN KEY (subjectCategoryCd) REFERENCES tec.codes_subject_category NOT VALID,
+	ADD FOREIGN KEY (subjectPositionCd) REFERENCES tec.codes_subject_position NOT VALID,
 	ADD FOREIGN KEY (activityHoldOfficeCd) REFERENCES tec.codes_offices NOT VALID,
 	ADD FOREIGN KEY (activityHoldOfficeCountyCd) REFERENCES tec.codes_counties NOT VALID,
 	ADD FOREIGN KEY (activitySeekOfficeCd) REFERENCES tec.codes_offices NOT VALID,

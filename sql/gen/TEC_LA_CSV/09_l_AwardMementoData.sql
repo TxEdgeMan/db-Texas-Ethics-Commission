@@ -85,6 +85,9 @@ ALTER TABLE tec.l_AwardMementoData
 	ADD FOREIGN KEY (reportTypeCd) REFERENCES tec.codes_reports NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.l_CoverSheetLaData NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
+	ADD FOREIGN KEY (lobbyActivityPeriodCd) REFERENCES tec.codes_lobby_activity_period NOT VALID,
+	ADD FOREIGN KEY (activityAmountCd) REFERENCES tec.codes_activity_amount NOT VALID,
+	ADD FOREIGN KEY (recipientPersentTypeCd) REFERENCES tec.codes_persent_types NOT VALID,
 	ADD FOREIGN KEY (recipientNameSuffixCd) REFERENCES tec.codes_name_suffixes NOT VALID,
 	ADD FOREIGN KEY (recipientNamePrefixCd) REFERENCES tec.codes_name_prefixes NOT VALID;
 

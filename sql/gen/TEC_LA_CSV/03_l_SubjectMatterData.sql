@@ -64,7 +64,8 @@ ALTER TABLE tec.l_SubjectMatterData
 	ADD FOREIGN KEY (formTypeCd) REFERENCES tec.codes_forms NOT VALID,
 	ADD FOREIGN KEY (reportTypeCd) REFERENCES tec.codes_reports NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.l_CoverSheetLaData NOT VALID,
-	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID;
+	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
+	ADD FOREIGN KEY (subjectMatterCd) REFERENCES tec.codes_subject_matter NOT VALID;
 
 CREATE INDEX ON tec.l_SubjectMatterData (reportinfoident);
 

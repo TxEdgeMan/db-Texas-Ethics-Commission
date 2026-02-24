@@ -46,3 +46,12 @@ VALUES
 	( 'BSS'    , 'Pledged Contributions (Special Session)'                                      , 'PLEDGE' ),
 	( 'D'      , 'Pledged Contributions From Corporation Or Labor Organization'                 , 'PLEDGE' )
 ;
+-- Codes not found in CFS-Codes.txt - update name and category needed.  Reported to Ethics commission 
+-- support email address 
+INSERT INTO codes_schedules
+VALUES
+	( 'B2'     , 'Pledged UNKNOWN'                                             , 'PLEDGE' ),
+	( 'A'     , 'Contribution UNKNOWN'                                             , 'CONTRIBUTION' ),
+	( 't-ctr' , 'Contribution UNKNOWN'                                             , 'CONTRIBUTION' ),
+	( 'M'	 , 'UNKNOWN'                                             , 'CONTRIBUTION' )
+ON CONFLICT ( schedule_code) DO NOTHING;

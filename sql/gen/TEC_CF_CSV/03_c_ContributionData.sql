@@ -265,6 +265,34 @@ COMMENT ON COLUMN tec.c_contributiondata.contributorparent2lawfirmname IS $$Cont
 
 \COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_85.csv' WITH ( FORMAT CSV , HEADER true );
 
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_86.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_87.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_88.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_89.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_90.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_91.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_92.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_93.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_94.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_95.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_96.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_97.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_98.csv' WITH ( FORMAT CSV , HEADER true );
+
+\COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/contribs_99.csv' WITH ( FORMAT CSV , HEADER true );
+
 \COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/cont_ss.csv' WITH ( FORMAT CSV , HEADER true );
 
 \COPY tec.c_ContributionData FROM 'data/TEC_CF_CSV/cont_t.csv' WITH ( FORMAT CSV , HEADER true );
@@ -274,10 +302,13 @@ CREATE INDEX ON tec.c_ContributionData (filerIdent, filerTypeCd);
 
 ALTER TABLE tec.c_ContributionData
 	ADD FOREIGN KEY (formTypeCd) REFERENCES tec.codes_forms NOT VALID,
+	ADD FOREIGN KEY (schedFormTypeCd) REFERENCES tec.codes_schedules NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.c_CoverSheet1Data NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
+	ADD FOREIGN KEY (contributorPersentTypeCd) REFERENCES tec.codes_persent_types NOT VALID,
 	ADD FOREIGN KEY (contributorNameSuffixCd) REFERENCES tec.codes_name_suffixes NOT VALID,
 	ADD FOREIGN KEY (contributorNamePrefixCd) REFERENCES tec.codes_name_prefixes NOT VALID,
+	ADD FOREIGN KEY (contributorStreetStateCd) REFERENCES tec.codes_states NOT VALID,
 	ADD FOREIGN KEY (contributorStreetCountyCd) REFERENCES tec.codes_counties NOT VALID,
 	ADD FOREIGN KEY (contributorStreetCountryCd) REFERENCES tec.codes_countries NOT VALID,
 	ADD FOREIGN KEY (filerIdent, filerTypeCd) REFERENCES tec.c_FilerData NOT VALID;

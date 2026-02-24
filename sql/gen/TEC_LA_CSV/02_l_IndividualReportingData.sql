@@ -81,6 +81,7 @@ ALTER TABLE tec.l_IndividualReportingData
 	ADD FOREIGN KEY (reportTypeCd) REFERENCES tec.codes_reports NOT VALID,
 	ADD FOREIGN KEY (reportInfoIdent) REFERENCES tec.l_CoverSheetLaData NOT VALID,
 	ADD FOREIGN KEY (filerTypeCd) REFERENCES tec.codes_filertype NOT VALID,
+	ADD FOREIGN KEY (onbehalfMailingStateCd) REFERENCES tec.codes_states NOT VALID,
 	ADD FOREIGN KEY (onbehalfMailingCountyCd) REFERENCES tec.codes_counties NOT VALID,
 	ADD FOREIGN KEY (onbehalfMailingCountryCd) REFERENCES tec.codes_countries NOT VALID;
 

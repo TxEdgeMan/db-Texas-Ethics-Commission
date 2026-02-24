@@ -73,7 +73,7 @@ NOTES:
 
 
  
-  (5)  filedDt: The date the report was filed. If filed by U.S. Mail or common carrier, this is the
+   (5)  filedDt: The date the report was filed. If filed by U.S. Mail or common carrier, this is the
         postmark date. If the date is not present or illegible, it is blank. If the report is a
         correction, this is the date the correction was filed. Thus, a report with a filedDt after the
         due date is NOT NECESSARILY LATE.
