@@ -29,7 +29,6 @@ CREATE TABLE codes_election_type (
 INSERT INTO codes_election_type( electionTypeCd, electionTypeCd_name )
 VALUES
 ( 'OTHER',  'Other' ),
-( 'UNKNOWN',  'Unknown' ),
 ( 'RUNOFF',  'Runoff' ),
 ( 'PRIMARY',  'Primary' ),
 ( 'SPECIAL',  'Special' ),

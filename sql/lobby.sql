@@ -36,6 +36,25 @@ UPDATE tec.l_foodbeveragedata SET recipientnamesuffixcd = NULL WHERE recipientna
 UPDATE tec.l_awardmementodata SET recipientnamesuffixcd = NULL WHERE recipientnamesuffixcd = 'MR';
 UPDATE tec.l_eventdata SET recipientnamesuffixcd = NULL WHERE recipientnamesuffixcd = 'MR';
 
+-- Fix UNKNOWN values in columns that reference codes tables where UNKNOWN is not a valid code
+-- These must be set to NULL before FK constraints are validated
+UPDATE tec.l_coversheetladata SET sourcecategorycd = NULL WHERE sourcecategorycd = 'UNKNOWN';
+UPDATE tec.l_foodbeveragedata SET activityamountcd = NULL WHERE activityamountcd = 'UNKNOWN';
+UPDATE tec.l_entertainmentdata SET activityamountcd = NULL WHERE activityamountcd = 'UNKNOWN';
+UPDATE tec.l_giftdata SET activityamountcd = NULL WHERE activityamountcd = 'UNKNOWN';
+UPDATE tec.l_awardmementodata SET activityamountcd = NULL WHERE activityamountcd = 'UNKNOWN';
+-- Clear UNKNOWN report type codes
+UPDATE tec.l_coversheetladata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_individualreportingdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_subjectmatterdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_docketdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_transportationdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_foodbeveragedata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_entertainmentdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_giftdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_awardmementodata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+UPDATE tec.l_eventdata SET reporttypecd = NULL WHERE reporttypecd = 'UNKNOWN';
+
 --
 -- Now let's try to validate all the constriants.
 --

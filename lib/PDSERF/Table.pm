@@ -45,7 +45,8 @@ has 'columns' => (
 	default => sub { [] },
 	coerce  => 1,
 	handles => {
-		push_column => 'push'
+		push_column => 'push',
+		count_columns => 'count'
 	}
 );
 

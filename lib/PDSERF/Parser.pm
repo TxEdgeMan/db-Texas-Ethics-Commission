@@ -183,7 +183,18 @@ sub _build_table {
 			
 		}
 	}
-	
+
+	if ( $t->name eq 'c_CoverSheet3Data' ) {
+		$t->push_column({
+			table       => $t,
+			name        => 'commActivityName',
+			description => 'XXX: Undocumented column manually specified in ' . __PACKAGE__,
+			type        => 'String',
+			length      => 100,
+			mask        => '',
+			order       => $t->count_columns + 1
+		});
+	}
 	$t;
 };
 

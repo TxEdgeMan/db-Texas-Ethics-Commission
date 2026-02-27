@@ -66,8 +66,7 @@ sub pg_type ($self) {
 		$coltype = 'date';
 	}
 	elsif ( $self->name =~ /ExpendCd$/ ) {
-		#$coltype = 'bool';
-		$coltype = 'char(1)'; # ExpendCd is 'Y' or 'N'
+		$coltype = 'bool';
 	}
 	elsif ( $self->name =~ /CountryCd$/ ) {
 		$coltype = 'char(3)';
@@ -109,7 +108,6 @@ sub fkey_constraint ($self) {
 		PDSERF::Client::INSTALL_SCHEMA
 	);
 
-	# ExpendCd is only 'Y' or 'N'
 	if ( $self->name =~ /expendCatCd$/ ) {
 		return sprintf( $fmt, 'c_expendcategory' );
 	}
@@ -167,9 +165,6 @@ sub fkey_constraint ($self) {
 		return sprintf( $fmt, 'codes_persent_types' );
 	}
 	# Handle specific code tables
-	elsif ( $self->name =~ /^politicalExpendCd$/ ) {
-		return sprintf( $fmt, 'codes_political_expend' );
-	}
 	elsif ( $self->name =~ /^subjectCategoryCd$/ ) {
 		return sprintf( $fmt, 'codes_subject_category' );
 	}
@@ -226,6 +221,10 @@ sub fkey_constraint ($self) {
 	}
 	elsif ( $self->name =~ /^spacFilerTypeCd$|^candidateFilerTypeCd$/ ) {
 		return sprintf( $fmt, 'codes_filertype' );
+	}
+	# this one is stupid it's just "y" and "n", it's a bool we don't need to model this.
+	elsif ( $self->name =~ /^^politicalExpendCd$/ ) {
+		return;
 	}
 	elsif ( $self->name =~ /Cd$/ ) {
 		warn sprintf("Unhandled foreign key detected for table %s: %s", $self->table->name, $self->name );

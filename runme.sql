@@ -232,6 +232,22 @@ $$ LANGUAGE plpgsql;
 -- The CSV schema dumps as seperate columns
 -- But the readme shows it as an array
 -- So we convert back to array
+-- First clear UNKNOWN values so they become NULL and get removed by array_remove
+UPDATE c_coversheet1data SET
+    reportTypeCd1 = NULLIF(reportTypeCd1, 'UNKNOWN'),
+    reportTypeCd2 = NULLIF(reportTypeCd2, 'UNKNOWN'),
+    reportTypeCd3 = NULLIF(reportTypeCd3, 'UNKNOWN'),
+    reportTypeCd4 = NULLIF(reportTypeCd4, 'UNKNOWN'),
+    reportTypeCd5 = NULLIF(reportTypeCd5, 'UNKNOWN'),
+    reportTypeCd6 = NULLIF(reportTypeCd6, 'UNKNOWN'),
+    reportTypeCd7 = NULLIF(reportTypeCd7, 'UNKNOWN'),
+    reportTypeCd8 = NULLIF(reportTypeCd8, 'UNKNOWN'),
+    reportTypeCd9 = NULLIF(reportTypeCd9, 'UNKNOWN'),
+    reportTypeCd10 = NULLIF(reportTypeCd10, 'UNKNOWN')
+WHERE 'UNKNOWN' IN (reportTypeCd1, reportTypeCd2, reportTypeCd3, reportTypeCd4,
+                    reportTypeCd5, reportTypeCd6, reportTypeCd7, reportTypeCd8,
+                    reportTypeCd9, reportTypeCd10);
+
 BEGIN;
 	ALTER TABLE c_coversheet1data
 		ADD COLUMN reporttype text[];
@@ -247,6 +263,76 @@ BEGIN;
 		DROP COLUMN reportTypeCd6, DROP COLUMN reportTypeCd7, DROP COLUMN reportTypeCd8, DROP COLUMN reportTypeCd9, DROP COLUMN reportTypeCd10;
 
 COMMIT;
+
+-- Fix UNKNOWN values in columns that reference codes tables where UNKNOWN was removed
+-- These must be set to NULL before FK constraints are validated
+-- NOTE: Lobby table (l_*) UNKNOWN cleanups are in sql/lobby.sql
+UPDATE tec.c_coversheet1data SET electionTypeCd = NULL WHERE electionTypeCd = 'UNKNOWN';
+UPDATE tec.c_coversheet1data SET sourcecategorycd = NULL WHERE sourcecategorycd = 'UNKNOWN';
+UPDATE tec.c_loandata SET loanstatuscd = NULL WHERE loanstatuscd = 'UNKNOWN';
+UPDATE tec.c_spacdata SET spacpositioncd = NULL WHERE spacpositioncd = 'UNKNOWN';
+
+-- Fix invalid state codes before UPPER() transformation and FK validation
+-- ONTARIO is a Canadian province, should be ON (case-insensitive match)
+UPDATE tec.c_contributiondata SET contributorstreetstatecd = 'ON' WHERE UPPER(contributorstreetstatecd) = 'ONTARIO';
+
+-- Clear ALL invalid state codes across ALL tables before uppercase transformation
+-- This handles HESSEN, HESSE, X, X7, and any other invalid codes
+DO $$
+DECLARE
+    _sql text;
+    rows_affected INT;
+BEGIN
+    FOR _sql IN SELECT FORMAT(
+            'UPDATE %I.%I SET %I = NULL WHERE %I IS NOT NULL AND NOT EXISTS (SELECT 1 FROM tec.codes_states WHERE state_code = UPPER(%I));',
+            table_schema,
+            table_name,
+            column_name,
+            column_name,
+            column_name
+        )
+        FROM information_schema.columns
+        WHERE table_schema = 'tec'
+            AND column_name LIKE '%statecd%'
+        ORDER BY table_schema, table_name
+    LOOP
+        RAISE NOTICE '%', _sql;
+        EXECUTE _sql;
+        GET DIAGNOSTICS rows_affected = ROW_COUNT;
+        RAISE NOTICE '	Rows Affected: %', rows_affected;
+        COMMIT;
+    END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+-- Uppercase all StateCd columns before validating FK constraints
+DO $$
+DECLARE
+	_sql text;
+	rows_affected INT;
+BEGIN
+	FOR _sql IN SELECT FORMAT(
+			'UPDATE %I.%I SET %I = UPPER(%I) WHERE %I IS DISTINCT FROM UPPER(%I);',
+			table_schema,
+			table_name,
+			column_name,
+			column_name,
+			column_name,
+			column_name
+		)
+		FROM information_schema.columns
+		WHERE table_schema = 'tec'
+			AND column_name LIKE '%statecd%'
+		ORDER BY table_schema, table_name
+	LOOP
+		RAISE NOTICE '%', _sql;
+		EXECUTE _sql;
+		GET DIAGNOSTICS rows_affected = ROW_COUNT;
+		RAISE NOTICE '	Rows Affected: %', rows_affected;
+		COMMIT;
+	END LOOP;
+END
+$$ LANGUAGE plpgsql;
 
 --
 -- Now let's try to validate all the constriants.

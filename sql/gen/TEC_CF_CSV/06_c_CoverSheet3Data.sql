@@ -44,7 +44,7 @@ CREATE TABLE tec.c_CoverSheet3Data (
 	activitySeekOfficeDescr                 text,
 	activitySeekOfficeCountyCd              text,
 	activitySeekOfficeCountyDescr           text,
-        commActivityName       text,
+	commActivityName                        text,
 	PRIMARY KEY (committeeActivityId)
 );
 COMMENT ON TABLE tec.c_CoverSheet3Data IS $$Cover Sheet 3 - Committee purpose. The committee purpose is reported at the top of Cover Sheet Page 2 FORMNAME = CEC, GPAC, JSPAC, MCEC, MPAC, SCSPAC, SPAC, SPACSS. File: purpose.csv$$;
@@ -74,6 +74,7 @@ COMMENT ON COLUMN tec.c_coversheet3data.activityseekofficeplace IS $$Activity of
 COMMENT ON COLUMN tec.c_coversheet3data.activityseekofficedescr IS $$Activity office sought description$$;
 COMMENT ON COLUMN tec.c_coversheet3data.activityseekofficecountycd IS $$Activity office sought county code$$;
 COMMENT ON COLUMN tec.c_coversheet3data.activityseekofficecountydescr IS $$Activity office sought county description$$;
+COMMENT ON COLUMN tec.c_coversheet3data.commactivityname IS $$XXX: Undocumented column manually specified in PDSERF::Parser$$;
 \COPY tec.c_CoverSheet3Data FROM 'data/TEC_CF_CSV/purpose.csv' WITH ( FORMAT CSV , HEADER true );
 
 

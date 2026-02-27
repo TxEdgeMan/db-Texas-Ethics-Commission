@@ -20,6 +20,7 @@ use strict;
 use feature ':5.26';
 use autodie;
 
+use local::lib;
 use File::Path ();
 use File::Spec ();
 use IO::File   ();

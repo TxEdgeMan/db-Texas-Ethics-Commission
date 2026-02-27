@@ -65,5 +65,4 @@ VALUES
 	( 'SPKUC'           ,'Speaker Annual Report of Unexpended Contributions' ),
 	( 'SS'              ,'Legislative Special Session Report' ),
 	( 'UNEXPCONT'       ,'Unexpended Contributions Report-Annual' ),
-	( 'UNEXPCONT_FINAL' ,'Unexpended Contributions Report-Final' ),
-	( 'UNKNOWN'         ,'Unknown' );
+	( 'UNEXPCONT_FINAL' ,'Unexpended Contributions Report-Final' );
